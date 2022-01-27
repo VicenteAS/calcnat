@@ -1,0 +1,40 @@
+.home {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    margin-top: 2%;
+    margin-top: 5%;
+    margin-left: 2%;
+}
+.luz tr {
+    background-color: rgb(83, 177, 240);
+      text-align: right;
+      
+}
+.luz input {
+    text-align: center;
+    width: 120px;   
+}
+.results {
+   
+    display: flex;
+    flex-direction: column;
+    margin-left: 5%;
+    
+}
+.results input {
+    text-align: right;
+    width: 120px;
+    border-right: none;   
+}
+
+.bodyresults {
+    height: 200px;
+
+}
+
+
+
+
+
+

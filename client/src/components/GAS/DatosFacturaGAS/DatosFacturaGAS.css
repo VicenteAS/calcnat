@@ -1,0 +1,30 @@
+.home {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    margin-top: 2%;
+    margin-top: 5%;
+    margin-left: 2%;
+}
+.gas tr {
+    background-color: rgb(250, 188, 56);
+      text-align: right;
+      
+}
+.gas input {
+    text-align: center;
+    width: 120px;   
+}
+.results {
+   
+    display: flex;
+    flex-direction: column;
+    margin-left: 5%;
+    
+}
+.results input {
+    text-align: right;
+    width: 120px;
+    border-right: none;   
+}
+

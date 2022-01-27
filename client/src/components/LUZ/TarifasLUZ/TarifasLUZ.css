@@ -1,0 +1,31 @@
+
+
+.mejorTarifa.true{
+    background-color: rgb(28, 219, 92);
+}
+.mejorTarifa.false{
+    background-color:  rgba(245, 235, 146, 0.993);
+}
+
+.mejorCIA.true{
+    border: 2px solid rgb(0, 0, 0) !important;
+    background-color: rgb(28, 219, 92);
+}
+.mejorCIA.false{
+    background-color:  rgba(243, 232, 137, 0.993);
+}
+
+
+.td-main {
+    background-color: #E5E5E5 !important;
+    border: 2px solid ;
+    
+}
+td{
+    vertical-align: middle;
+    
+}
+
+.table.table-sm{
+    border: 2px solid black;
+}

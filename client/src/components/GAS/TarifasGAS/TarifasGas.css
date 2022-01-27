@@ -1,0 +1,25 @@
+tr{
+    vertical-align: middle;
+    border: 2px solid black;
+}
+.mejorGas.true{
+    border: 2px solid rgb(0, 0, 0) !important;
+    background-color: rgb(28, 219, 92);
+}
+.mejorGas.false{
+    background-color:  rgba(243, 232, 137, 0.993);
+}
+
+.td-main {
+    background-color: #E5E5E5 !important;
+    border: 2px solid ;
+    
+}
+
+.table.table-sm{
+    border: 2px solid black;
+}
+.bodyresults {
+    height: 180px;
+
+}
