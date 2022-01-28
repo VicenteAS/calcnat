@@ -20,7 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `bd_calculadora_naturgy`
 --
-
+CREATE DATATABLE `bd_calculadora_naturgy`;
+USE `bd_calculadora_naturgy`;
 -- --------------------------------------------------------
 
 --

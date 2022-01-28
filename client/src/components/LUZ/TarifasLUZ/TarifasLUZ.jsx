@@ -28,10 +28,10 @@ function TarifasLUZ({data}) {
         const totalTP = (Number(TP1) + Number(TP2)) 
         const totalTE = ((Number(data.TE1) + Number(data.TE2) + Number(data.TE3))* precioTE);
         const impuestos = (totalTP + totalTE) * Number(data.impuesto/100);
+        const otros = (Number(data.alquiler * data.days) + Number(data.otros));
         const totalTarifa = totalTP + totalTE + otros + impuestos;
         const IVA = totalTarifa * Number(data.IVA) /100;
         const totalTarifaIVA = totalTarifa + IVA;
-    
         const OBJ = {
             totalTP : totalTP,
             totalTE : totalTE,
@@ -59,24 +59,8 @@ function TarifasLUZ({data}) {
         fetchData();
         }, [])
 
-
-    const TP1PUL = (totalTP1 * precioTP1PUL)
-    const TP2PUL = (totalTP2 * precioTP2PUL) 
-    const totalTPPUL = (Number(TP1PUL) + Number(TP2PUL)) / ( 1+ ( data.discTP/100))
-    const totalTEPUL = ((Number(data.TE1) + Number(data.TE2) + Number(data.TE3))* precioTEPUL) / ( 1+ ( data.discTE/100));
-    const otros = (Number(data.alquiler * data.days) + Number(data.otros));
-    const impuestosPUL = (totalTPPUL + totalTEPUL) * Number(data.impuesto/100);
-    const totalTarifaPUL = totalTPPUL + totalTEPUL + otros + impuestosPUL;
-    const IVAPUL = totalTarifaPUL * Number(data.IVA) /100;
-    const totalTarifaPULIVA = totalTarifaPUL + IVAPUL;
-
-    const PUL = {
-        totalTP : totalTPPUL,
-        totalTE : totalTEPUL,
-        otros : otros,
-        impuestos : impuestosPUL + IVAPUL,
-        totalTarifa : totalTarifaPULIVA,
-    }
+        let PUL = calculoAgrupado(precioTP1PUL, precioTP2PUL, precioTEPUL);
+   
 
     // NOCHE LUZ "NL"
     const [precioTP1NL ,setPrecioTP1NL] = useState(""); 
@@ -98,24 +82,7 @@ function TarifasLUZ({data}) {
                 fetchData();        
         },[]);
 
-    const TP1NL = (totalTP1 * precioTP1NL)
-    const TP2NL = (totalTP2 * precioTP2NL)
-    const totalTPNL = ((Number(TP1NL) + Number(TP2NL)) / ( 1+ ( data.discTP/100)));
-    const totalTENL =  (((Number(data.TE1) * precioTE1NL ) + (Number(data.TE2)* precioTE2NL )+ (Number(data.TE3)* precioTE3NL)) / ( 1+ ( data.discTE/100)));
-    const impuestosNL = (totalTPNL + totalTENL)  * Number(data.impuesto/100);
-    const totalTarifaNL = totalTPNL + totalTENL + otros + impuestosNL;
-    const IVANL = totalTarifaNL * Number(data.IVA) /100;
-    const totalTarifaNLIVA = totalTarifaNL + IVANL;
-
-
-    const NL = {
-        totalTP : totalTPNL,
-        totalTE : totalTENL,
-        otros : otros,
-        impuestos : impuestosNL + IVANL,
-        totalTarifa : totalTarifaNLIVA,
-    }
-
+        let NL = calculoAgrupado(precioTP1NL, precioTP2NL, precioTE1NL,precioTE2NL, precioTE3NL);
 
     //COMPROMISO "COM" 
 
@@ -198,30 +165,15 @@ function TarifasLUZ({data}) {
             } fetchData();    
             },[]);
     
-            const TP1REP = (totalTP1 * precioTP1REP)
-            const TP2REP = (totalTP2 * precioTP2REP) 
-            const totalTPREP = (Number(TP1REP) + Number(TP2REP)) 
-            const totalTEREP = ((Number(data.TE1) + Number(data.TE2) + Number(data.TE3))* precioTEREP);
-            const impuestosREP = (totalTPREP + totalTEREP) * Number(data.impuesto/100);
-            const totalTarifaREP = totalTPREP + totalTEREP + otros + impuestosREP;
-            const IVAREP = totalTarifaREP * Number(data.IVA) /100;
-            const totalTarifaREPIVA = totalTarifaREP + IVAREP;
-        
-            const REP = {
-                id : 1,
-                totalTP : totalTPREP,
-                totalTE : totalTEREP,
-                otros : otros,
-                impuestos : impuestosREP + IVAREP,
-                totalTarifa : totalTarifaREPIVA,
-            }
+            let REP = calculoAgrupado(precioTP1REP, precioTP2REP, precioTEREP);
+
     // Hola Luz "HL"
     
 
         const [precioTP1HL ,setPrecioTP1HL] = useState(""); 
         const [precioTP2HL ,setPrecioTP2HL] = useState(""); 
         const [precioTEHL ,setPrecioTEHL] = useState(""); 
-       
+
         useEffect(() => {
             async function fetchData() {
                 await axios.get("http://172.86.8.130:3001/api/holaluz").then((response) => {
@@ -232,32 +184,16 @@ function TarifasLUZ({data}) {
             } fetchData();    
             },[]);
     
-            const TP1HL = (totalTP1 * precioTP1HL)
-            const TP2HL = (totalTP2 * precioTP2HL) 
-            const totalTPHL = (Number(TP1HL) + Number(TP2HL)) 
-            const totalTEHL = ((Number(data.TE1) + Number(data.TE2) + Number(data.TE3))* precioTEHL);
-            const impuestosHL = (totalTPHL + totalTEHL) * Number(data.impuesto/100);
-            const totalTarifaHL = totalTPHL + totalTEHL + otros + impuestosHL;
-            const IVAHL = totalTarifaHL * Number(data.IVA) /100;
-            const totalTarifaHLIVA = totalTarifaHL + IVAHL;
-        
-            const HL = {
-                id : 1,
-                totalTP : totalTPHL,
-                totalTE : totalTEHL,
-                otros : otros,
-                impuestos : impuestosHL + IVAHL,
-                totalTarifa : totalTarifaHLIVA,
-            }
+            let HL = calculoAgrupado(precioTP1HL, precioTP2HL, precioTEHL);
     
     // TotalEnergies "EN"     
     
-       
+
 
         const [precioTP1EN ,setPrecioTP1EN] = useState(""); 
         const [precioTP2EN ,setPrecioTP2EN] = useState(""); 
         const [precioTEEN ,setPrecioTEEN] = useState(""); 
-       
+
         useEffect(() => {
             async function fetchData() {
                 await axios.get("http://172.86.8.130:3001/api/totalenergies").then((response) => {
@@ -268,27 +204,11 @@ function TarifasLUZ({data}) {
             } fetchData();    
             },[]);
     
-            const TP1EN = (totalTP1 * precioTP1EN)
-            const TP2EN = (totalTP2 * precioTP2EN) 
-            const totalTPEN = (Number(TP1EN) + Number(TP2EN)) 
-            const totalTEEN = ((Number(data.TE1) + Number(data.TE2) + Number(data.TE3))* precioTEEN);
-            const impuestosEN = (totalTPEN + totalTEEN) * Number(data.impuesto/100);
-            const totalTarifaEN = totalTPEN + totalTEEN + otros + impuestosEN;
-            const IVAEN = totalTarifaEN * Number(data.IVA) /100;
-            const totalTarifaENIVA = totalTarifaEN + IVAEN;
-        
-            const EN = {
-                id : 1,
-                totalTP : totalTPEN,
-                totalTE : totalTEEN,
-                otros : otros,
-                impuestos : impuestosEN + IVAEN,
-                totalTarifa : totalTarifaENIVA,
-            }
+            let EN = calculoAgrupado(precioTP1EN, precioTP2EN, precioTEEN);
         
         //MEJOR_TARIFA
-        const mejorTarifa = Math.min(totalTarifaNLIVA,totalTarifaPULIVA,COM.totalTarifa);
-        const mejorCIA = Math.min(END.totalTarifa , IBD.totalTarifa , totalTarifaREP , totalTarifaHL ,totalTarifaEN)
+        const mejorTarifa = Math.min(NL.totalTarifa,PUL.totalTarifaPUL,COM.totalTarifa);
+        const mejorCIA = Math.min(END.totalTarifa , IBD.totalTarifa , REP.totalTarifa , HL.totalTarifa ,EN.totalTarifa)
     
     return (
     <>
@@ -306,8 +226,8 @@ function TarifasLUZ({data}) {
             </tr>
         </thead>
             <tbody className="bodyresults">
-                <tr className={`mejorTarifa ${mejorTarifa === totalTarifaPULIVA && mejorTarifa!== 0}`}><PorUsoLuz data={PUL}/></tr>
-                <tr className={`mejorTarifa ${mejorTarifa === totalTarifaNLIVA  && mejorTarifa!== 0}`}><NocheLuz data={NL}/></tr>
+                <tr className={`mejorTarifa ${mejorTarifa === PUL.totalTarifa && mejorTarifa!== 0}`}><PorUsoLuz data={PUL}/></tr>
+                <tr className={`mejorTarifa ${mejorTarifa === NL.totalTarifa  && mejorTarifa!== 0}`}><NocheLuz data={NL}/></tr>
                 <tr className={`mejorTarifa ${mejorTarifa === COM.totalTarifa  && mejorTarifa!== 0}`}><Compromiso data={COM}/></tr>
             </tbody>
             </table>
@@ -326,9 +246,9 @@ function TarifasLUZ({data}) {
         <tbody className="bodyresults">     
                 <tr className={`mejorCIA ${mejorCIA === END.totalTarifa && mejorCIA!== 0}`}><Endesa data={END}/></tr>
                 <tr className={`mejorCIA ${mejorCIA === IBD.totalTarifa  && mejorCIA!== 0}`}><Iberdrola data={IBD}/></tr>
-                <tr className={`mejorCIA ${mejorCIA === totalTarifaREP && mejorCIA!== 0}`}><Repsol data={REP}/></tr>
-                <tr className={`mejorCIA ${mejorCIA === totalTarifaHL  && mejorCIA!== 0}`}><HolaLuz data={HL}/></tr>
-                <tr className={`mejorCIA ${mejorCIA === totalTarifaEN  && mejorCIA!== 0}`}><TotalEnergies data={EN}/></tr>
+                <tr className={`mejorCIA ${mejorCIA === REP.totalTarifa && mejorCIA!== 0}`}><Repsol data={REP}/></tr>
+                <tr className={`mejorCIA ${mejorCIA === HL.totalTarifa  && mejorCIA!== 0}`}><HolaLuz data={HL}/></tr>
+                <tr className={`mejorCIA ${mejorCIA === EN.totalTarifa  && mejorCIA!== 0}`}><TotalEnergies data={EN}/></tr>
                 </tbody>
             </table>
         </div>
