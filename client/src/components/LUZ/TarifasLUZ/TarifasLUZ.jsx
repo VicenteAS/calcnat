@@ -15,13 +15,6 @@ function TarifasLUZ({data}) {
     const [totalTP1 , setTotalTP1] = useState("");
     const [totalTP2 , setTotalTP2] = useState("");
 
-    /**
-     * 
-     * @param {string} precioTP1 Precio Termino de Potencia 1
-     * @param {string} precioTP2 Precio Termino de Potencia 2
-     * @param {string} precioTE Precio Termino de Energia 
-     * @returns 
-     */
     function calculoAgrupado(precioTP1, precioTP2, precioTE){
         const TP1 = (totalTP1 * precioTP1)
         const TP2 = (totalTP2 * precioTP2) 
@@ -44,6 +37,7 @@ function TarifasLUZ({data}) {
     }
 
   // POR USO LUZ "PUL"
+
     const [precioTP1PUL ,setPrecioTP1PUL] = useState(""); 
     const [precioTP2PUL ,setPrecioTP2PUL] = useState(""); 
     const [precioTEPUL ,setPrecioTEPUL] = useState(""); 
@@ -59,8 +53,8 @@ function TarifasLUZ({data}) {
         fetchData();
         }, [])
 
-        let PUL = calculoAgrupado(precioTP1PUL, precioTP2PUL, precioTEPUL);
-   
+        const PUL = calculoAgrupado(precioTP1PUL, precioTP2PUL, precioTEPUL);
+
 
     // NOCHE LUZ "NL"
     const [precioTP1NL ,setPrecioTP1NL] = useState(""); 
@@ -82,7 +76,7 @@ function TarifasLUZ({data}) {
                 fetchData();        
         },[]);
 
-        let NL = calculoAgrupado(precioTP1NL, precioTP2NL, precioTE1NL,precioTE2NL, precioTE3NL);
+        const NL = calculoAgrupado(precioTP1NL, precioTP2NL, precioTE1NL,precioTE2NL, precioTE3NL);
 
     //COMPROMISO "COM" 
 
@@ -102,7 +96,7 @@ function TarifasLUZ({data}) {
         } fetchData();    
         },[]);
 
-      let COM = calculoAgrupado(precioTP1COM, precioTP2COM, precioTECOM);
+      const COM = calculoAgrupado(precioTP1COM, precioTP2COM, precioTECOM);
 
     //
     useEffect(() => {
@@ -129,7 +123,7 @@ function TarifasLUZ({data}) {
         } fetchData();    
         },[]);
 
-        let END = calculoAgrupado(precioTP1END, precioTP2END, precioTEEND);
+        const END = calculoAgrupado(precioTP1END, precioTP2END, precioTEEND);
 
     //Iberdrola "IBD"
 
@@ -147,7 +141,7 @@ function TarifasLUZ({data}) {
         } fetchData();    
         },[]);
 
-        let IBD = calculoAgrupado(precioTP1IBD, precioTP2IBD, precioTEIBD);
+        const IBD = calculoAgrupado(precioTP1IBD, precioTP2IBD, precioTEIBD);
 
     //Repsol "REP"
 
@@ -165,7 +159,7 @@ function TarifasLUZ({data}) {
             } fetchData();    
             },[]);
     
-            let REP = calculoAgrupado(precioTP1REP, precioTP2REP, precioTEREP);
+            const REP = calculoAgrupado(precioTP1REP, precioTP2REP, precioTEREP);
 
     // Hola Luz "HL"
     
@@ -184,7 +178,7 @@ function TarifasLUZ({data}) {
             } fetchData();    
             },[]);
     
-            let HL = calculoAgrupado(precioTP1HL, precioTP2HL, precioTEHL);
+            const HL = calculoAgrupado(precioTP1HL, precioTP2HL, precioTEHL);
     
     // TotalEnergies "EN"     
     
@@ -204,7 +198,7 @@ function TarifasLUZ({data}) {
             } fetchData();    
             },[]);
     
-            let EN = calculoAgrupado(precioTP1EN, precioTP2EN, precioTEEN);
+            const EN = calculoAgrupado(precioTP1EN, precioTP2EN, precioTEEN);
         
         //MEJOR_TARIFA
         const mejorTarifa = Math.min(NL.totalTarifa,PUL.totalTarifaPUL,COM.totalTarifa);
