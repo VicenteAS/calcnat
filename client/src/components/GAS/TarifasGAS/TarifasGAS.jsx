@@ -7,61 +7,53 @@ import "./TarifasGas.css";
 
 function TarifasGAS({data}) {
 
+        function calculoAgrupado(precio1, precio2) {
+            const TF = (precio1 * Number(data.days)) / ( 1+ ( data.discTF/100));
+            const TV = (precio2 * Number(data.consumo))/ ( 1+ ( data.discTV/100));
+            const otros = (Number(data.alquiler * data.days) + Number(data.otros));
+            const impuestos =  Number(data.impuesto) * Number(data.consumo);
+            const totalTarifa = TF + TV + otros + impuestos ;
+            const IVA = totalTarifa * Number(data.IVA) /100; 
+            const totalTarifaIVA = totalTarifa + IVA;
+            const OBJ = {
+                totalTF : TF ,
+                totalTV : TV ,
+                otros : otros ,
+                impuestos : impuestos + IVA,
+                totalTarifa : totalTarifaIVA
+            }
+            return OBJ;
+        }
     
   // POR USO GAS "PUG"
   
-  const [RL1TFPUG , setRL1TFPUG] = useState(''); 
-  const [RL2TFPUG , setRL2TFPUG] = useState(''); 
-  const [RL3TFPUG , setRL3TFPUG] = useState(''); 
-  const [RL1TVPUG , setRL1TVPUG] = useState(''); 
-  const [RL2TVPUG , setRL2TVPUG] = useState(''); 
-  const [RL3TVPUG , setRL3TVPUG] = useState(''); 
+  const [pricePUG, setPricePUG] = useState('');
 
     useEffect(() => {
         async function fetchData() {
             await axios.get("http://172.86.8.130:3001/api/porusogas").then((response) => {
-            setRL1TFPUG(response.data[0].RL1TF);
-            setRL2TFPUG(response.data[0].RL2TF);
-            setRL3TFPUG(response.data[0].RL3TF);
-            setRL1TVPUG(response.data[0].RL1TV);
-            setRL2TVPUG(response.data[0].RL2TV);
-            setRL3TVPUG(response.data[0].RL3TV);
+            setPricePUG(response.data[0])
             });
         } fetchData();    
         },[]);
 
     const PUG = {
-        Precio1 : "",
-        Precio2 : "",
-        otros : "",
-        impuestos : "",
-        total : "",
+        precio1 : "",
+        precio2 : "",
     };
 
     if (data.peaje === "RL.1") {
-        PUG.Precio1 = RL1TFPUG
-        PUG.Precio2 = RL1TVPUG 
+        PUG.precio1 = pricePUG.RL1TF
+        PUG.precio2 = pricePUG.RL1TV 
     } else if (data.peaje === "RL.2") {
-        PUG.Precio1 = RL2TFPUG
-        PUG.Precio2 = RL2TVPUG
+        PUG.precio1 = pricePUG.RL2TF
+        PUG.precio2 = pricePUG.RL2TV
     } else if (data.peaje === "RL.3") {
-        PUG.Precio1 = RL3TFPUG
-        PUG.Precio2 = RL3TVPUG
+        PUG.precio1 = pricePUG.RL3TF
+        PUG.precio2 = pricePUG.RL3TV
     };   
-    const TFPG = (PUG.Precio1 * Number(data.days)) / ( 1+ ( data.discTF/100));
-    const TVPG = PUG.Precio2 * Number(data.consumo)/ ( 1+ ( data.discTV/100));
-    const otros = (Number(data.alquiler * data.days) + Number(data.otros));
-    const impuestosPUG =  Number(data.impuesto) * Number(data.consumo);
-    const totalTarifaPUG = TFPG + TVPG + otros + impuestosPUG ;
-    const IVAPUG = totalTarifaPUG * Number(data.IVA) /100; 
-    const totalTarifaPUGIVA = totalTarifaPUG + IVAPUG;
-    const PG = {
-        totalTF : TFPG ,
-        totalTV : TVPG ,
-        otros : otros ,
-        impuestos : impuestosPUG + IVAPUG,
-        totalTarifa : totalTarifaPUGIVA
-    }
+    
+    const PG = calculoAgrupado(PUG.precio1 , PUG.precio2);
     
 
     // Digital gas "DGG"
@@ -78,37 +70,24 @@ function TarifasGAS({data}) {
 },[]);
 
     const DGG = {
-        Precio1 : "" ,
-        Precio2 : "",
+        precio1 : "" ,
+        precio2 : "",
     };
 
     if (data.peaje === "RL.1") {
-        DGG.Precio1 = priceDGG.RL1TF
-        DGG.Precio2 = priceDGG.RL1TV
+        DGG.precio1 = priceDGG.RL1TF
+        DGG.precio2 = priceDGG.RL1TV
     } else if (data.peaje === "RL.2") {
-        DGG.Precio1 = priceDGG.RL2TF
-        DGG.Precio2 = priceDGG.RL2TV
+        DGG.precio1 = priceDGG.RL2TF
+        DGG.precio2 = priceDGG.RL2TV
     } else if (data.peaje === "RL.3") {
-        DGG.Precio1 = priceDGG.RL3TF
-        DGG.Precio2 = priceDGG.RL3TV
+        DGG.precio1 = priceDGG.RL3TF
+        DGG.precio2 = priceDGG.RL3TV
     };    
-    
-    const TFDG = DGG.Precio1 * Number(data.days);
-    const TVDG = DGG.Precio2 * Number(data.consumo);
-    const impuestosDGG =  Number(data.impuesto) * Number(data.consumo);
-    const totalTarifaDGG = TFDG + TVDG + otros + impuestosDGG ;
-    const IVADGG = totalTarifaDGG * Number(data.IVA) /100; 
-    const totalTarifaDGGIVA = totalTarifaDGG + IVADGG;
-    
-    const DG = {
-        totalTF : TFDG ,
-        totalTV : TVDG ,
-        otros : otros ,
-        impuestos : impuestosDGG + IVADGG,
-        totalTarifa : totalTarifaDGGIVA
-    }
 
-    const mejorGas = Math.min(totalTarifaPUGIVA , totalTarifaDGGIVA );
+    const DG = calculoAgrupado(DGG.precio1 , DGG.precio2);
+
+    const mejorGas = Math.min(PG.totalTarifa , DG.totalTarifa );
 
 
     return (
@@ -126,8 +105,8 @@ function TarifasGAS({data}) {
             </tr>
         </thead>
             <tbody className="bodyresults">
-            <tr className={`mejorGas ${mejorGas === totalTarifaPUGIVA && mejorGas!== 0}`}><PorUsoGas data={PG}/></tr>
-            <tr className={`mejorGas ${mejorGas === totalTarifaDGGIVA && mejorGas!== 0}`}><DigitalGas data={DG}/></tr>
+            <tr className={`mejorGas ${mejorGas === PG.totalTarifa && mejorGas!== 0}`}><PorUsoGas data={PG}/></tr>
+            <tr className={`mejorGas ${mejorGas === DG.totalTarifa && mejorGas!== 0}`}><DigitalGas data={DG}/></tr>
             </tbody>
             </table>
     </div>

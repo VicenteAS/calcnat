@@ -10,110 +10,59 @@ import Iberdrola from "./CIAS/Iberdrola";
 import Repsol from "./CIAS/Repsol";
 import HolaLuz from "./CIAS/HolaLuz";
 import TotalEnergies from "./CIAS/TotalEnergies";
+import calculoLUZ from "../../../helpers";
 
 function TarifasLUZ({data}) {
     const [totalTP1 , setTotalTP1] = useState("");
     const [totalTP2 , setTotalTP2] = useState("");
 
-    function calculoAgrupado(precioTP1, precioTP2, precioTE){
-        const TP1 = (totalTP1 * precioTP1)
-        const TP2 = (totalTP2 * precioTP2) 
-        const totalTP = (Number(TP1) + Number(TP2)) 
-        const totalTE = ((Number(data.TE1) + Number(data.TE2) + Number(data.TE3))* precioTE);
-        const impuestos = (totalTP + totalTE) * Number(data.impuesto/100);
-        const otros = (Number(data.alquiler * data.days) + Number(data.otros));
-        const totalTarifa = totalTP + totalTE + otros + impuestos;
-        const IVA = totalTarifa * Number(data.IVA) /100;
-        const totalTarifaIVA = totalTarifa + IVA;
-        const OBJ = {
-            totalTP : totalTP,
-            totalTE : totalTE,
-            otros : otros,
-            impuestos : impuestos + IVA,
-            totalTarifa : totalTarifaIVA,
-        }
 
-        return OBJ;
-    }
 
   // POR USO LUZ "PUL"
 
-    const [precioTP1PUL ,setPrecioTP1PUL] = useState(""); 
-    const [precioTP2PUL ,setPrecioTP2PUL] = useState(""); 
-    const [precioTEPUL ,setPrecioTEPUL] = useState(""); 
+    const [pricePUL ,setPricePUL] = useState(""); 
 
     useEffect(() => {
         async function fetchData() {
                 await axios.get("http://172.86.8.130:3001/api/porusoluz").then((response) => {
-                    setPrecioTP1PUL(response.data[0].TerminoDePotencia1);
-                    setPrecioTP2PUL(response.data[0].TerminoDePotencia2);
-                    setPrecioTEPUL(response.data[0].TerminoDeEnergia1);
+                    setPricePUL(response.data[0])
                     });
         }
         fetchData();
         }, [])
 
-        const PUL = calculoAgrupado(precioTP1PUL, precioTP2PUL, precioTEPUL);
-
+        const PUL = calculoLUZ(totalTP1, totalTP2, data, pricePUL.TerminoDePotencia1, pricePUL.TerminoDePotencia2, pricePUL.TerminoDeEnergia1);
 
     // NOCHE LUZ "NL"
-    const [precioTP1NL ,setPrecioTP1NL] = useState(""); 
-    const [precioTP2NL ,setPrecioTP2NL] = useState(""); 
-    const [precioTE1NL ,setPrecioTE1NL] = useState(""); 
-    const [precioTE2NL ,setPrecioTE2NL] = useState(""); 
-    const [precioTE3NL ,setPrecioTE3NL] = useState(""); 
+
+    const [priceNL ,setPriceNL] = useState("");
+
 
     useEffect(() => {
         async function fetchData() {
             await axios.get("http://172.86.8.130:3001/api/nocheluz").then((response) => {
-                    setPrecioTP1NL(response.data[0].TerminoDePotencia1);
-                    setPrecioTP2NL(response.data[0].TerminoDePotencia2);
-                    setPrecioTE1NL(response.data[0].TerminoDeEnergia1);
-                    setPrecioTE2NL(response.data[0].TerminoDeEnergia2);
-                    setPrecioTE3NL(response.data[0].TerminoDeEnergia3);
+                    setPriceNL(response.data[0]);
                     });
                 }        
                 fetchData();        
         },[]);
 
-        const TP1NL = (totalTP1 * precioTP1NL)
-        const TP2NL = (totalTP2 * precioTP2NL) 
-        const totalTP = (Number(TP1NL) + Number(TP2NL)) 
-        const totalTE = ((Number(data.TE1) * precioTE1NL)+ (Number(data.TE2) * precioTE2NL )+  (Number(data.TE3) * precioTE3NL));
-        const impuestos = (totalTP + totalTE) * Number(data.impuesto/100);
-        const otros = (Number(data.alquiler * data.days) + Number(data.otros));
-        const totalTarifa = totalTP + totalTE + otros + impuestos;
-        const IVA = totalTarifa * Number(data.IVA) /100;
-        const totalTarifaIVA = totalTarifa + IVA;
-        const NL = {
-            totalTP : totalTP,
-            totalTE : totalTE,
-            otros : otros,
-            impuestos : impuestos + IVA,
-            totalTarifa : totalTarifaIVA,
-        }
-
-        
-
+        const NL = calculoLUZ(totalTP1, totalTP2, data, priceNL.TerminoDePotencia1, priceNL.TerminoDePotencia2, priceNL.TerminoDeEnergia1, true, priceNL);
     //COMPROMISO "COM" 
 
-    const [precioTP1COM ,setPrecioTP1COM] = useState(""); 
-    const [precioTP2COM ,setPrecioTP2COM] = useState(""); 
-    const [precioTECOM ,setPrecioTECOM] = useState(""); 
 
-  
+    const [priceCOM , setPriceCOM] = useState(""); 
 
     useEffect(() => {
         async function fetchData() {
             await axios.get("http://172.86.8.130:3001/api/compromiso").then((response) => {
-            setPrecioTP1COM(response.data[0].TerminoDePotencia1);
-            setPrecioTP2COM(response.data[0].TerminoDePotencia2);
-            setPrecioTECOM(response.data[0].TerminoDeEnergia1);
+            setPriceCOM(response.data[0])
             });
         } fetchData();    
         },[]);
 
-      const COM = calculoAgrupado(precioTP1COM, precioTP2COM, precioTECOM);
+        const COM = calculoLUZ(totalTP1, totalTP2, data, priceCOM.TerminoDePotencia1, priceCOM.TerminoDePotencia2, priceCOM.TerminoDeEnergia1);
+
 
     //
     useEffect(() => {
@@ -126,96 +75,79 @@ function TarifasLUZ({data}) {
 
     //ENDESA "END"
 
-    const [precioTP1END ,setPrecioTP1END] = useState(""); 
-    const [precioTP2END ,setPrecioTP2END] = useState(""); 
-    const [precioTEEND ,setPrecioTEEND] = useState(""); 
+
+    const [priceEND ,setPriceEND] = useState("");
    
     useEffect(() => {
         async function fetchData() {
             await axios.get("http://172.86.8.130:3001/api/endesa").then((response) => {
-            setPrecioTP1END(response.data[0].TerminoDePotencia1);
-            setPrecioTP2END(response.data[0].TerminoDePotencia2);
-            setPrecioTEEND(response.data[0].TerminoDeEnergia1);
+            setPriceEND(response.data[0])
             });
         } fetchData();    
         },[]);
 
-        const END = calculoAgrupado(precioTP1END, precioTP2END, precioTEEND);
+        const END = calculoLUZ(totalTP1, totalTP2, data, priceEND.TerminoDePotencia1, priceEND.TerminoDePotencia2, priceEND.TerminoDeEnergia1);
+
 
     //Iberdrola "IBD"
 
-    const [precioTP1IBD ,setPrecioTP1IBD] = useState(""); 
-    const [precioTP2IBD ,setPrecioTP2IBD] = useState(""); 
-    const [precioTEIBD ,setPrecioTEIBD] = useState(""); 
+    const [priceIBD ,setPreiceIBD] = useState("");
    
     useEffect(() => {
         async function fetchData() {
             await axios.get("http://172.86.8.130:3001/api/iberdrola").then((response) => {
-            setPrecioTP1IBD(response.data[0].TerminoDePotencia1);
-            setPrecioTP2IBD(response.data[0].TerminoDePotencia2);
-            setPrecioTEIBD(response.data[0].TerminoDeEnergia1);
+
+            setPreiceIBD(response.data[0])
             });
         } fetchData();    
         },[]);
 
-        const IBD = calculoAgrupado(precioTP1IBD, precioTP2IBD, precioTEIBD);
+        const IBD = calculoLUZ(totalTP1, totalTP2, data, priceIBD.TerminoDePotencia1, priceIBD.TerminoDePotencia2, priceIBD.TerminoDeEnergia1);
 
     //Repsol "REP"
 
-        const [precioTP1REP ,setPrecioTP1REP] = useState(""); 
-        const [precioTP2REP ,setPrecioTP2REP] = useState(""); 
-        const [precioTEREP ,setPrecioTEREP] = useState(""); 
-       
+
+        const [priceREP ,setPriceREP] = useState(""); 
         useEffect(() => {
             async function fetchData() {
                 await axios.get("http://172.86.8.130:3001/api/repsol").then((response) => {
-                setPrecioTP1REP(response.data[0].TerminoDePotencia1);
-                setPrecioTP2REP(response.data[0].TerminoDePotencia2);
-                setPrecioTEREP(response.data[0].TerminoDeEnergia1);
+
+                setPriceREP(response.data[0])
                 });
             } fetchData();    
             },[]);
     
-            const REP = calculoAgrupado(precioTP1REP, precioTP2REP, precioTEREP);
+            const REP = calculoLUZ(totalTP1, totalTP2, data, priceREP.TerminoDePotencia1, priceREP.TerminoDePotencia2, priceREP.TerminoDeEnergia1);
+
 
     // Hola Luz "HL"
     
-
-        const [precioTP1HL ,setPrecioTP1HL] = useState(""); 
-        const [precioTP2HL ,setPrecioTP2HL] = useState(""); 
-        const [precioTEHL ,setPrecioTEHL] = useState(""); 
+        const [priceHL , setPriceHL] = useState("");
 
         useEffect(() => {
             async function fetchData() {
                 await axios.get("http://172.86.8.130:3001/api/holaluz").then((response) => {
-                setPrecioTP1HL(response.data[0].TerminoDePotencia1);
-                setPrecioTP2HL(response.data[0].TerminoDePotencia2);
-                setPrecioTEHL(response.data[0].TerminoDeEnergia1);
+                setPriceHL(response.data[0]);
                 });
             } fetchData();    
             },[]);
     
-            const HL = calculoAgrupado(precioTP1HL, precioTP2HL, precioTEHL);
-    
+            const HL = calculoLUZ(totalTP1, totalTP2, data, priceHL.TerminoDePotencia1, priceHL.TerminoDePotencia2, priceHL.TerminoDeEnergia1);
+
     // TotalEnergies "EN"     
     
+            const [priceEN , setPriceEN] = useState("");
 
-
-        const [precioTP1EN ,setPrecioTP1EN] = useState(""); 
-        const [precioTP2EN ,setPrecioTP2EN] = useState(""); 
-        const [precioTEEN ,setPrecioTEEN] = useState(""); 
-
-        useEffect(() => {
+         useEffect(() => {
             async function fetchData() {
                 await axios.get("http://172.86.8.130:3001/api/totalenergies").then((response) => {
-                setPrecioTP1EN(response.data[0].TerminoDePotencia1);
-                setPrecioTP2EN(response.data[0].TerminoDePotencia2);
-                setPrecioTEEN(response.data[0].TerminoDeEnergia1);
+                    setPriceEN(response.data[0]);
                 });
             } fetchData();    
             },[]);
     
-            const EN = calculoAgrupado(precioTP1EN, precioTP2EN, precioTEEN);
+            const EN = calculoLUZ(totalTP1, totalTP2, data, priceEN.TerminoDePotencia1, priceEN.TerminoDePotencia2, priceEN.TerminoDeEnergia1);
+
         
         //MEJOR_TARIFA
         const mejorTarifa = Math.min(NL.totalTarifa,PUL.totalTarifaPUL,COM.totalTarifa);
