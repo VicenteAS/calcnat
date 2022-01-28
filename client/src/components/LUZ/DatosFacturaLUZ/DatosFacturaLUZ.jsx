@@ -81,7 +81,6 @@ const DatosFacturaLUZ = () => {
                             <select name='impuesto' onChange={handleData}>
                                 <option >0.00</option>
                                 <option >0.50</option>
-                                <option >5.00</option>
                                 <option >5.11</option>
                             </select>%
                         </td>

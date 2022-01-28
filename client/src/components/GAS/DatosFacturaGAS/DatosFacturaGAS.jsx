@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Tarifas from "../../LUZ/TarifasLUZ/TarifasLUZ";
 import TarifasGAS from "../TarifasGAS/TarifasGAS";
 
 
@@ -56,20 +55,12 @@ const DatosFacturaGAS = () => {
                                 <option >0.00</option>
                                 <option >3.00</option>
                                 <option >7.00</option>
-                                <option >10.00</option>
                                 <option >21.00</option>
                             </select>%
                         </td>
                     </tr> 
                     <tr><th>IMPUESTOS</th>
-                        <td>
-                            <select name='impuesto' onChange={handleData}>
-                                <option >0.00</option>
-                                <option >0.50</option>
-                                <option >5.00</option>
-                                <option >5.11</option>
-                            </select>%
-                        </td>
+                        <td><input type="text" name='impuesto' defaultValue='0.00234' onChange={handleData} ></input></td>
                     </tr>  
                     <tr><th>DESCUENTO TF</th>
                         <td>

@@ -7,8 +7,8 @@ import DatosFacturaGAS from './components/GAS/DatosFacturaGAS/DatosFacturaGAS';
 const App = () => {
   return (
     <div className="App">
-     <DatosFacturaLUZ />
-     <DatosFacturaGAS />
+      <DatosFacturaLUZ />
+      <DatosFacturaGAS />
     </div>
   );
 }

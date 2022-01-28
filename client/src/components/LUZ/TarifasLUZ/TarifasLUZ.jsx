@@ -76,7 +76,24 @@ function TarifasLUZ({data}) {
                 fetchData();        
         },[]);
 
-        const NL = calculoAgrupado(precioTP1NL, precioTP2NL, precioTE1NL,precioTE2NL, precioTE3NL);
+        const TP1NL = (totalTP1 * precioTP1NL)
+        const TP2NL = (totalTP2 * precioTP2NL) 
+        const totalTP = (Number(TP1NL) + Number(TP2NL)) 
+        const totalTE = ((Number(data.TE1) * precioTE1NL)+ (Number(data.TE2) * precioTE2NL )+  (Number(data.TE3) * precioTE3NL));
+        const impuestos = (totalTP + totalTE) * Number(data.impuesto/100);
+        const otros = (Number(data.alquiler * data.days) + Number(data.otros));
+        const totalTarifa = totalTP + totalTE + otros + impuestos;
+        const IVA = totalTarifa * Number(data.IVA) /100;
+        const totalTarifaIVA = totalTarifa + IVA;
+        const NL = {
+            totalTP : totalTP,
+            totalTE : totalTE,
+            otros : otros,
+            impuestos : impuestos + IVA,
+            totalTarifa : totalTarifaIVA,
+        }
+
+        
 
     //COMPROMISO "COM" 
 

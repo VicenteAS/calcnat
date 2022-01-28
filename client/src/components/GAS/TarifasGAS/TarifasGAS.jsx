@@ -66,40 +66,31 @@ function TarifasGAS({data}) {
 
     // Digital gas "DGG"
     
-    const [RL1TFDGG , setRL1TFDGG] = useState(''); 
-    const [RL2TFDGG , setRL2TFDGG] = useState(''); 
-    const [RL3TFDGG , setRL3TFDGG] = useState(''); 
-    const [RL1TVDGG , setRL1TVDGG] = useState(''); 
-    const [RL2TVDGG , setRL2TVDGG] = useState(''); 
-    const [RL3TVDGG , setRL3TVDGG] = useState(''); 
+
+    const [priceDGG , setPriceDGG] = useState('');
   
     useEffect(() => {
         async function fetchData() {
             await axios.get("http://172.86.8.130:3001/api/digitalgas").then((response) => {
-            setRL1TFDGG(response.data[0].RL1TF);
-            setRL2TFDGG(response.data[0].RL2TF);
-            setRL3TFDGG(response.data[0].RL3TF);
-            setRL1TVDGG(response.data[0].RL1TV);
-            setRL2TVDGG(response.data[0].RL2TV);
-            setRL3TVDGG(response.data[0].RL3TV);
-            });
-        } fetchData();    
-        },[]);
-  
+            setPriceDGG(response.data[0])
+        });
+    } fetchData();    
+},[]);
+
     const DGG = {
         Precio1 : "" ,
         Precio2 : "",
     };
 
     if (data.peaje === "RL.1") {
-        DGG.Precio1 = RL1TFDGG
-        DGG.Precio2 = RL1TVDGG
+        DGG.Precio1 = priceDGG.RL1TF
+        DGG.Precio2 = priceDGG.RL1TV
     } else if (data.peaje === "RL.2") {
-        DGG.Precio1 = RL2TFDGG
-        DGG.Precio2 = RL2TVDGG
+        DGG.Precio1 = priceDGG.RL2TF
+        DGG.Precio2 = priceDGG.RL2TV
     } else if (data.peaje === "RL.3") {
-        DGG.Precio1 = RL3TFDGG
-        DGG.Precio2 = RL3TVDGG
+        DGG.Precio1 = priceDGG.RL3TF
+        DGG.Precio2 = priceDGG.RL3TV
     };    
     
     const TFDG = DGG.Precio1 * Number(data.days);
@@ -120,7 +111,6 @@ function TarifasGAS({data}) {
     const mejorGas = Math.min(totalTarifaPUGIVA , totalTarifaDGGIVA );
 
 
-    
     return (
     <div className="tabla" >
         <h2 className="title">TARIFAS</h2>
