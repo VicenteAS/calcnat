@@ -11,11 +11,10 @@ import {GET_POR_USO_GAS , GET_DIGITAL_GAS} from "../../../utils/utils"
 
 function TarifasGAS({data}) {
 
-   
-
+console.log(data);
   // POR USO GAS "PUG"
-  
-  const [pricePUG, setPricePUG] = useState('');
+
+    const [pricePUG, setPricePUG] = useState('');
 
     useEffect(() => {
         async function fetchData() {
@@ -48,7 +47,7 @@ function TarifasGAS({data}) {
     
 
     const [priceDGG , setPriceDGG] = useState('');
-  
+
     useEffect(() => {
         async function fetchData() {
             await axios.get(GET_DIGITAL_GAS).then((response) => {

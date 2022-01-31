@@ -27,16 +27,19 @@ function calculoLUZ(totalTP1, totalTP2,data, precioTP1, precioTP2, precioTE, isN
 function calculoGAS(precio1, precio2, data) {
     const TF = (precio1 * Number(data.days)) / ( 1+ ( data.discTF/100));
     const TV = (precio2 * Number(data.consumo))/ ( 1+ ( data.discTV/100));
-    const otros = (Number(data.alquiler * data.days) + Number(data.otros));
+    
+
+    const otros = (((Number(data.alquiler * data.days) * 0.07 ) +(Number(data.alquiler * data.days)) + Number(data.otros)));
+
     const impuestos =  Number(data.impuesto) * Number(data.consumo);
     const totalTarifa = TF + TV + otros + impuestos ;
-    const IVA = totalTarifa * Number(data.IVA) /100; 
+    const IVA = totalTarifa * (Number(data.IVA + 100) /100); 
     const totalTarifaIVA = totalTarifa + IVA;
     const OBJ = {
         totalTF : TF ,
         totalTV : TV ,
         otros : otros ,
-        impuestos : impuestos + IVA,
+        impuestos : impuestos ,
         totalTarifa : totalTarifaIVA
     }
     return OBJ;

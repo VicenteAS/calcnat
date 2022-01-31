@@ -11,8 +11,8 @@ const INITIAL_VALUES = {
     consumo : '',
     discTF : '0',
     discTV : '0',
-    IVA : '0',
-    impuesto : '0',
+    IVA : '21.00',
+    impuesto : '0.00234',
     otros : ''
 }
 const DatosFacturaGAS = () => {
@@ -49,19 +49,14 @@ const DatosFacturaGAS = () => {
                     <tr><th>CONSUMO</th>
                         <td><input type="text" name='consumo' onChange={handleData} ></input></td>
                     </tr>  
-                    <tr><th>IVA</th>
+                    <tr><th>IVA/IMPUESTO</th>
                         <td>
                             <select name='IVA' onChange={handleData}>
-                                <option >0.00</option>
-                                <option >3.00</option>
-                                <option >7.00</option>
-                                <option >21.00</option>
-                            </select>%
+                                <option value="21.00">Peninsula</option>
+                                <option value="3.00">Canarias</option>
+                            </select>
                         </td>
                     </tr> 
-                    <tr><th>IMPUESTOS</th>
-                        <td><input type="text" name='impuesto' defaultValue='0.00234' onChange={handleData} ></input></td>
-                    </tr>  
                     <tr><th>DESCUENTO TF</th>
                         <td>
                         <input name="discTF" onChange={handleData}></input><i>%</i></td>

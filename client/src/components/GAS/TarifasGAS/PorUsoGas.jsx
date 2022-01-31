@@ -1,7 +1,7 @@
 import React from 'react'
 
 function PorUsoGas(PG) { 
-
+    
     return (
     <>
         <td className="td-main">POR USO GAS</td>
