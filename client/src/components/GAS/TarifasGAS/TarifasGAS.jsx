@@ -4,34 +4,22 @@ import axios from "axios"
 import PorUsoGas from "./PorUsoGas";
 import DigitalGas from "./DigitalGas";
 import "./TarifasGas.css";
+import {calculoGAS} from "../../../helpers";
+import {GET_POR_USO_GAS , GET_DIGITAL_GAS} from "../../../utils/utils"
+
+
 
 function TarifasGAS({data}) {
 
-        function calculoAgrupado(precio1, precio2) {
-            const TF = (precio1 * Number(data.days)) / ( 1+ ( data.discTF/100));
-            const TV = (precio2 * Number(data.consumo))/ ( 1+ ( data.discTV/100));
-            const otros = (Number(data.alquiler * data.days) + Number(data.otros));
-            const impuestos =  Number(data.impuesto) * Number(data.consumo);
-            const totalTarifa = TF + TV + otros + impuestos ;
-            const IVA = totalTarifa * Number(data.IVA) /100; 
-            const totalTarifaIVA = totalTarifa + IVA;
-            const OBJ = {
-                totalTF : TF ,
-                totalTV : TV ,
-                otros : otros ,
-                impuestos : impuestos + IVA,
-                totalTarifa : totalTarifaIVA
-            }
-            return OBJ;
-        }
-    
+   
+
   // POR USO GAS "PUG"
   
   const [pricePUG, setPricePUG] = useState('');
 
     useEffect(() => {
         async function fetchData() {
-            await axios.get("http://172.86.8.130:3001/api/porusogas").then((response) => {
+            await axios.get(GET_POR_USO_GAS).then((response) => {
             setPricePUG(response.data[0])
             });
         } fetchData();    
@@ -53,7 +41,7 @@ function TarifasGAS({data}) {
         PUG.precio2 = pricePUG.RL3TV
     };   
     
-    const PG = calculoAgrupado(PUG.precio1 , PUG.precio2);
+    const PG = calculoGAS(PUG.precio1 , PUG.precio2 , data);
     
 
     // Digital gas "DGG"
@@ -63,7 +51,7 @@ function TarifasGAS({data}) {
   
     useEffect(() => {
         async function fetchData() {
-            await axios.get("http://172.86.8.130:3001/api/digitalgas").then((response) => {
+            await axios.get(GET_DIGITAL_GAS).then((response) => {
             setPriceDGG(response.data[0])
         });
     } fetchData();    
@@ -85,7 +73,7 @@ function TarifasGAS({data}) {
         DGG.precio2 = priceDGG.RL3TV
     };    
 
-    const DG = calculoAgrupado(DGG.precio1 , DGG.precio2);
+    const DG = calculoGAS(DGG.precio1 , DGG.precio2 , data);
 
     const mejorGas = Math.min(PG.totalTarifa , DG.totalTarifa );
 
@@ -113,4 +101,5 @@ function TarifasGAS({data}) {
     )
 }
 export default TarifasGAS;
+
 

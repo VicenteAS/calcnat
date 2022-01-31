@@ -10,13 +10,12 @@ import Iberdrola from "./CIAS/Iberdrola";
 import Repsol from "./CIAS/Repsol";
 import HolaLuz from "./CIAS/HolaLuz";
 import TotalEnergies from "./CIAS/TotalEnergies";
-import calculoLUZ from "../../../helpers";
+import {calculoLUZ} from "../../../helpers";
+import {GET_POR_USO_LUZ , GET_NOCHE_LUZ , GET_COMPROMISO, GET_ENDESA, GET_IBERDROLA, GET_REPSOL, GET_HOLA_LUZ, GET_TOTAL_ENERGIES} from "../../../utils/utils";
 
 function TarifasLUZ({data}) {
     const [totalTP1 , setTotalTP1] = useState("");
     const [totalTP2 , setTotalTP2] = useState("");
-
-
 
   // POR USO LUZ "PUL"
 
@@ -24,7 +23,7 @@ function TarifasLUZ({data}) {
 
     useEffect(() => {
         async function fetchData() {
-                await axios.get("http://172.86.8.130:3001/api/porusoluz").then((response) => {
+                await axios.get(GET_POR_USO_LUZ).then((response) => {
                     setPricePUL(response.data[0])
                     });
         }
@@ -40,7 +39,7 @@ function TarifasLUZ({data}) {
 
     useEffect(() => {
         async function fetchData() {
-            await axios.get("http://172.86.8.130:3001/api/nocheluz").then((response) => {
+            await axios.get(GET_NOCHE_LUZ).then((response) => {
                     setPriceNL(response.data[0]);
                     });
                 }        
@@ -55,7 +54,7 @@ function TarifasLUZ({data}) {
 
     useEffect(() => {
         async function fetchData() {
-            await axios.get("http://172.86.8.130:3001/api/compromiso").then((response) => {
+            await axios.get(GET_COMPROMISO).then((response) => {
             setPriceCOM(response.data[0])
             });
         } fetchData();    
@@ -80,7 +79,7 @@ function TarifasLUZ({data}) {
    
     useEffect(() => {
         async function fetchData() {
-            await axios.get("http://172.86.8.130:3001/api/endesa").then((response) => {
+            await axios.get(GET_ENDESA).then((response) => {
             setPriceEND(response.data[0])
             });
         } fetchData();    
@@ -95,7 +94,7 @@ function TarifasLUZ({data}) {
    
     useEffect(() => {
         async function fetchData() {
-            await axios.get("http://172.86.8.130:3001/api/iberdrola").then((response) => {
+            await axios.get(GET_IBERDROLA).then((response) => {
 
             setPreiceIBD(response.data[0])
             });
@@ -110,7 +109,7 @@ function TarifasLUZ({data}) {
         const [priceREP ,setPriceREP] = useState(""); 
         useEffect(() => {
             async function fetchData() {
-                await axios.get("http://172.86.8.130:3001/api/repsol").then((response) => {
+                await axios.get(GET_REPSOL).then((response) => {
 
                 setPriceREP(response.data[0])
                 });
@@ -126,7 +125,7 @@ function TarifasLUZ({data}) {
 
         useEffect(() => {
             async function fetchData() {
-                await axios.get("http://172.86.8.130:3001/api/holaluz").then((response) => {
+                await axios.get(GET_HOLA_LUZ).then((response) => {
                 setPriceHL(response.data[0]);
                 });
             } fetchData();    
@@ -140,7 +139,7 @@ function TarifasLUZ({data}) {
 
          useEffect(() => {
             async function fetchData() {
-                await axios.get("http://172.86.8.130:3001/api/totalenergies").then((response) => {
+                await axios.get(GET_TOTAL_ENERGIES).then((response) => {
                     setPriceEN(response.data[0]);
                 });
             } fetchData();    
