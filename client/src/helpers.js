@@ -17,7 +17,7 @@ function calculoLUZ(totalTP1, totalTP2,data, precioTP1, precioTP2, precioTE, isN
         totalTP : totalTP,
         totalTE : totalTE,
         otros : otros,
-        impuestos : impuestos + IVA,
+        impuestos : impuestos,
         totalTarifa : totalTarifaIVA,
     }
 
