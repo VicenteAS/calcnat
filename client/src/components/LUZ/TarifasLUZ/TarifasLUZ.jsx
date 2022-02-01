@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../../../bootstrap-5.0.0/css/bootstrap.min.css"
 import PorUsoLuz from "./PorUsoLuz";
 import NocheLuz from "./NocheLuz";
-/* import Compromiso from "./Compromiso"; */
+ import Compromiso from "./Compromiso"; 
 import "./TarifasLUZ.css";
 import axios from "axios"
 import Endesa from "./CIAS/Endesa";
@@ -150,7 +150,7 @@ function TarifasLUZ({data}) {
 
         
         //MEJOR_TARIFA
-        const mejorTarifa = Math.min(NL.totalTarifa,PUL.totalTarifaPUL,COM.totalTarifa);
+        const mejorTarifa = Math.min(NL.totalTarifa,PUL.totalTarifa);
         const mejorCIA = Math.min(END.totalTarifa , IBD.totalTarifa , REP.totalTarifa , HL.totalTarifa ,EN.totalTarifa)
     
     return (
@@ -171,7 +171,7 @@ function TarifasLUZ({data}) {
             <tbody className="bodyresults">
                 <tr className={`mejorTarifa ${mejorTarifa === PUL.totalTarifa && mejorTarifa!== 0}`}><PorUsoLuz data={PUL}/></tr>
                 <tr className={`mejorTarifa ${mejorTarifa === NL.totalTarifa  && mejorTarifa!== 0}`}><NocheLuz data={NL}/></tr>
-               {/*  <tr className={`mejorTarifa ${mejorTarifa === COM.totalTarifa  && mejorTarifa!== 0}`}><Compromiso data={COM}/></tr> */}
+                {/* <tr className={`mejorTarifa ${mejorTarifa === COM.totalTarifa  && mejorTarifa!== 0}`}><Compromiso data={COM}/></tr> */} 
             </tbody>
             </table>
         <h2 className="title">COMPETENCIAS</h2>
