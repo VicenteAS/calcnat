@@ -11,7 +11,6 @@ import {GET_POR_USO_GAS , GET_DIGITAL_GAS} from "../../../utils/utils"
 
 function TarifasGAS({data}) {
 
-console.log(data);
   // POR USO GAS "PUG"
 
     const [pricePUG, setPricePUG] = useState('');
@@ -41,6 +40,7 @@ console.log(data);
     };   
     
     const PG = calculoGAS(PUG.precio1 , PUG.precio2 , data);
+    
     
 
     // Digital gas "DGG"

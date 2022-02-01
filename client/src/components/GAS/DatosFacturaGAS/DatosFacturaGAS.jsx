@@ -7,7 +7,8 @@ import "./DatosFacturaGAS.css"
 const INITIAL_VALUES = {
     days: '',
     peaje: 'RL.1',
-    alquiler : '',
+    alquiler : '0.022',
+    ivaAlquiler : '7.00',
     consumo : '',
     discTF : '0',
     discTV : '0',
@@ -17,7 +18,7 @@ const INITIAL_VALUES = {
 }
 const DatosFacturaGAS = () => {
     const [data, setData] = useState(INITIAL_VALUES)
-   
+
     
     const handleData = (e) => {
         setData({...data ,[e.target.name]: e.target.value})
@@ -44,8 +45,16 @@ const DatosFacturaGAS = () => {
                         </td>
                     </tr>   
                     <tr><th>ALQUILER CONTADOR</th>
-                        <td><input type="text" name='alquiler' onChange={handleData}/></td>
+                        <td><input type="text" name='alquiler' defaultValue='0.022' onChange={handleData}/></td>
                     </tr>   
+                    <tr><th>IVA CONTADOR</th>
+                    <td>
+                            <select name='ivaAlquiler' onChange={handleData}>
+                                <option >7.00</option>
+                                <option >21.00</option>
+                            </select>
+                        </td>
+                    </tr>  
                     <tr><th>CONSUMO</th>
                         <td><input type="text" name='consumo' onChange={handleData} ></input></td>
                     </tr>  
