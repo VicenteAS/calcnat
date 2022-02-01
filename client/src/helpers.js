@@ -15,9 +15,13 @@ function calculoLUZ(totalTP1, totalTP2,data, precioTP1, precioTP2, precioTE, isN
     // Otros conceptos (alquiler)
     const impuestos = (totalTP + totalTE) * Number(data.impuesto/100);
     const otros = (Number(data.alquiler * data.days) + Number(data.otros));
+   
     const totalTarifa = totalTP + totalTE + otros + impuestos;
+    //IVA
     const IVA = totalTarifa * Number(data.IVA) /100;
+    //Total tarifa
     const totalTarifaIVA = totalTarifa + IVA;
+    //OBJ que retorna
     const OBJ = {
         totalTP : totalTP,
         totalTE : totalTE,
@@ -32,13 +36,10 @@ function calculoGAS(precio1,precio2 , data) {
 
     // TF
     const TF = (precio1 * Number(data.days)) / ( 1+ ( data.discTF/100));
-
     //TV
     const TV = (precio2 * Number(data.consumo))/ ( 1+ ( data.discTV/100));
-
     //IMPUESTOS HC
     const impuestosHC =  Number(data.impuesto) * Number(data.consumo);
-
     //Otros conceptos (alquiler)
     const alquiler = (Number(data.alquiler * data.days));
     const otros = alquiler + (Number(data.otros))
@@ -50,7 +51,7 @@ function calculoGAS(precio1,precio2 , data) {
     const IVA = impuestosHCIva + iva + alquilerIva;
     //total tarifa
     const totaltarifa= TF + TV + impuestosHC + otros + IVA;
-
+    //OBJ que retorna 
     const OBJ = {
         totalTF : TF ,
         totalTV : TV ,

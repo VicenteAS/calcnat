@@ -7,7 +7,7 @@ const INITIAL_VALUES = {
     days: '',
     TP1: '',
     TP2 : '',
-    alquiler : '0.02663',
+    alquiler : '0.02677',
     otros : '',
     TE1 : '',
     TE2 : '',
@@ -99,4 +99,3 @@ const DatosFacturaLUZ = () => {
     )
 }
 export default DatosFacturaLUZ;
-
