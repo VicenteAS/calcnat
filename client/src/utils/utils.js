@@ -8,3 +8,8 @@ export const GET_IBERDROLA = "http://172.86.8.130:3001/api/iberdrola";
 export const GET_REPSOL = "http://172.86.8.130:3001/api/repsol";
 export const GET_HOLA_LUZ = "http://172.86.8.130:3001/api/holaluz";
 export const GET_TOTAL_ENERGIES = "http://172.86.8.130:3001/api/totalenergies";
+
+// dinamico mode
+export const GET_DATOS_GAS = "http://localhost:3001/datos_gas";
+export const GET_DATOS_LUZ = "http://localhost:3001/datos_luz";
+

@@ -1,21 +1,38 @@
-function calculoLUZ(totalTP1, totalTP2,data, precioTP1, precioTP2, precioTE, isNL, priceNL = ""){
+function calculoLUZ(totalTP1, totalTP2,data, precioTP1, precioTP2, TE1, TE2 , TE3){
     // TP
+   /*  console.log(totalTP1);
+    console.log(totalTP2);
+    console.log(precioTP1);*/
+ 
+    if(precioTP1 === null || precioTP1 === undefined){
+        precioTP1 = 0;
+    }
+    if(precioTP2 === null || precioTP2 === undefined){
+        precioTP2 = 0;
+    }
+ 
     const TP1 = (totalTP1 * precioTP1)
     const TP2 = (totalTP2 * precioTP2) 
     const totalTP = (Number(TP1) + Number(TP2)) / ( 1+ ( data.discTP/100))
+    console.log(data);
+    let totalTE
+    if( TE2 === null || TE2 === undefined || TE3 === null || TE3 === undefined){
+    
+    totalTE = ((((Number(data.TE1) + Number(data.TE2) + Number(data.TE3)) * TE1))/ ( 1+ ( data.discTE/100))); 
 
-    // TE
-    let totalTE = ""; 
-    if(isNL){
-         totalTE = (((Number(data.TE1) * priceNL.TerminoDeEnergia1)+ (Number(data.TE2) * priceNL.TerminoDeEnergia2 )+  (Number(data.TE3) * priceNL.TerminoDeEnergia3))/ ( 1+ ( data.discTE/100)));
-    }else{
-        totalTE = (((Number(data.TE1) + Number(data.TE2) + Number(data.TE3))* precioTE)/ ( 1+ ( data.discTE/100)));
+    } else {
+
+        totalTE = ((Number(data.TE1) * TE1) + (Number(data.TE2) * TE2) + (Number(data.TE3) * TE3)/ ( 1+ ( data.discTE/100)))
     }
+
+
+    console.log(totalTE)
+
 
     // Otros conceptos (alquiler)
     const impuestos = (totalTP + totalTE) * Number(data.impuesto/100);
     const otros = (Number(data.alquiler * data.days) + Number(data.otros));
-   
+
     const totalTarifa = totalTP + totalTE + otros + impuestos;
     //IVA
     const IVA = totalTarifa * Number(data.IVA) /100;
@@ -29,6 +46,7 @@ function calculoLUZ(totalTP1, totalTP2,data, precioTP1, precioTP2, precioTE, isN
         impuestos : IVA + impuestos,
         totalTarifa : totalTarifaIVA,
     }
+    
     return OBJ;
 }
 
